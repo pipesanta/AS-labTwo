@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <style type="text/css">
+        .old{
+            background-color: #6CE26C !important;
+            background-image: none !important;
+            color: #000000 !important;
+        }        
+    </style>
+
+    <style type="text/css">
+        .ui-datatable .ui-datatable-header {
+            text-align: right !important;
+        }
+
+        .ui-selectcheckboxmenu-panel .ui-selectcheckboxmenu-header .ui-chkbox {
+            display: none;
+        }
+        .body-center{
+            display: flex;
+            align-content: center;
+            justify-content: center;
+
+        }
+
+        .fl-col{
+            display: flex;
+            flex-direction: column;
+            border: solid 2px black;
+            border-radius: 20px;
+            padding: 30px;
+            font-size: 24px;
+
+        }
+
+        #title{
+            font-size: 25px;
+            margin-bottom:20px;
+        }
+
+        .btn-list{
+            background-color: lightsteelblue;
+            font-size: 20px;
+            border-radius: 10px;
+            margin: 10px;
+            padding: 5px;
+        }
+        .btn-list:hover{
+            background-color: #819EB5;
+            font-size: 25px;
+            border-radius: 10px;
+            margin: 10px;
+            padding: 5px;
+        }
+
+
+
+    </style>
+
+    <h:head>
+        <title>Resultado de transaccion</title>
+        <script name="jquery/jquery.js" library="primefaces"></script>
+    </h:head>
+    <h:body class="body-center">
+
+        <div class="fl-col">
+
+            <span id="title"> Resultado de transaccion exitoso </span>
+            <span id="tx-user">Usuario: #{customerMBean.transaction.txUserName } </span>
+            <div id="tx-card-number">
+                Tarjeta: $#{customerMBean.transaction.txCardNumber }
+                <span id="tx-amount">#{customerMBean.transaction.txCardType } </span>
+            </div>
+            <span id="tx-amount">Valor: $ #{customerMBean.transaction.txValue } </span>
+
+
+
+            <p:barcode id="tx-qr-code" value="#{customerMBean.transaction.txQrCode }" 
+                       type="qr" height="300px" width="300px" /> 
+
+
+            <h:form>
+                <h:commandButton id="back_b" class="btn-list" value="Historial de Transacciones" action="#{customerMBean.list()}"/>
+
+            </h:form>
+
+
+        </div>
+
+    </h:body>
+</html>

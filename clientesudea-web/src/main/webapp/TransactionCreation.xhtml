@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Nueva transaccion</title>
+        <style type="text/css">
+            .error-sty{
+                color: red;
+            }
+            .body-item{
+                display: flex;
+                align-content: center;
+                justify-content: center;
+            }
+
+            .bg-grey{
+                background-color: beige;
+                border-radius: 30px;
+                padding: 30px;
+            }
+
+            .action-btns{
+                display: flex;
+                align-content: center;
+                justify-content: center;
+            }
+            .btn-pay{
+                background-color: lightsteelblue;
+                font-size: 20px;
+                border-radius: 10px;
+                margin: 10px;
+                padding: 5px;
+            }
+            .btn-pay:hover{
+                background-color: #819EB5;
+                font-size: 25px;
+                border-radius: 10px;
+                margin: 10px;
+                padding: 5px;
+            }
+            h1{
+                text-align: center;
+            }
+
+
+        </style>
+    </h:head>
+    <h:body class="body-item">
+        <f:view>
+
+
+            <h:form class="form-center bg-grey">
+                <h1><h:outputText value="Realizar Transacción"/></h1>
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Nombre:" for="customerId" />
+                    <p:inputText id="customerId" value="#{customerMBean.details.txUserName}" title="Nombre del Cliente"
+                                 required="true" requiredMessage="El nombre es requerido"/>
+
+                    <p:outputLabel value="Email:" for="email" />
+                    <p:inputText id="email" value="#{customerMBean.details.txUserEmail}" title="Correo electrónico"
+                                 required="true" requiredMessage="El Email es requerido"/>
+
+                    <p:outputLabel value="N° de Tarjeta" for="cardNumber" />
+                    <p:inputText id="cardNumber" value="#{customerMBean.details.txCardNumber}" title="Número de tarjeta"
+                                 maxlength="20"
+                                 required="true" requiredMessage="El card number es requerido">
+                        <p:ajax event="keyup" listener="#{customerMBean.oncardNumberChange}" update="cardType" />
+                    </p:inputText>    
+
+                    <p:outputLabel value="CVC" for="cardcvc" />
+                    <p:inputText id="cardcvc" value="#{customerMBean.details.txCardCvc}" title="Código de Seguridad"
+                                 maxlength="3"
+                                 required="true" requiredMessage="El CVC de tarjeta es requerido">
+                        <p:ajax event="keyup" listener="#{customerMBean.onCvcCardChange}" update="errorssection" />
+                    </p:inputText> 
+
+                    <p:outputLabel value="Expiración (MM/YYYY)" for="cardExp" />
+                    <p:inputText id="cardExp" value="#{customerMBean.details.txCardExpiration}" title="Fecha de Expiración"
+                                 maxlength="7"
+                                 required="true" requiredMessage="La fecha de vencimiento de la tarjeta es requerido">
+                        <p:ajax event="keyup" listener="#{customerMBean.onCardExpirationChange}" update="errorssection" />
+                    </p:inputText> 
+
+                    <p:outputLabel value="Tipo de Tarjeta" for="cardType" />
+                    <p:inputText id="cardType" readonly="true" value="#{customerMBean.details.txCardType}" title="Tipo de Tarjeta"/>
+
+
+                    <p:outputLabel value="Valor de Transacción" for="txAmount" />
+                    <p:inputNumber id="txAmount" value="#{customerMBean.details.txValue}" 
+                                   minValue="0" 
+                                   maxValue="10000" decimalPlaces="2">
+                        <p:ajax event="keyup" listener="#{customerMBean.onTransactionAmountChange}" update="errorssection" />
+                    </p:inputNumber>
+
+                    <p:row id="errorssection">
+                        <p:column colspan="2">
+                            <p:repeat  value="#{customerMBean.formErrors}" var="error">
+                                <h:panelGrid columns="1" style="width:100%">
+
+                                    <p:outputPanel>
+                                        <h:outputText class="error-sty" value="#{error.msg}" />
+                                    </p:outputPanel>
+
+                                </h:panelGrid>
+                                <hr />
+                            </p:repeat>
+                        </p:column>
+
+                    </p:row>
+
+
+
+                </p:panelGrid>
+
+                <br/>
+                <div class="action-btns">
+                    <h:commandButton id="back_c" class="btn-pay" value="Historial" immediate="true" action="#{customerMBean.list()}"/>
+                    <h:commandButton id="update" class="btn-pay" value="Realizar pago" action="#{customerMBean.create()}"/>
+
+                </div>
+
+            </h:form>
+
+
+
+
+        </f:view>
+
+    </h:body>
+</html>
